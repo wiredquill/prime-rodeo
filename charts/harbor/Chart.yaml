@@ -3,7 +3,7 @@ annotations:
   catalog.cattle.io/display-name: Harbor
   catalog.cattle.io/kube-version: '>=1.20-0'
   catalog.cattle.io/release-name: harbor
-apiVersion: v1
+apiVersion: v2
 appVersion: 2.11.0
 description: An open source trusted cloud native registry that stores, signs, and
   scans content
