@@ -1,0 +1,162 @@
+
+categories:
+  - "Harbor"
+
+questions:
+  # Ask for the service exposure method
+  - variable: expose.type
+    label: "Expose Service Type"
+    description: "How to expose the Harbor service. Options: ingress, clusterIP, nodePort, or loadBalancer"
+    type: enum
+    options:
+      - "ingress"
+      - "clusterIP"
+      - "nodePort"
+      - "loadBalancer"
+    default: "ingress"
+    required: true
+
+  # If TLS is enabled
+  - variable: expose.tls.enabled
+    label: "Enable TLS"
+    description: "Enable TLS for Harbor services."
+    type: boolean
+    default: true
+    required: true
+
+  # TLS certSource
+  - variable: expose.tls.certSource
+    label: "TLS Certificate Source"
+    description: "The source of the TLS certificate. Options: auto, secret, or none"
+    type: enum
+    options:
+      - "auto"
+      - "secret"
+      - "none"
+    default: "auto"
+    required: true
+
+  # Common name when certSource is auto
+  - variable: expose.tls.auto.commonName
+    label: "TLS Common Name"
+    description: "The common name to generate the certificate (Required when using a service type other than ingress)"
+    type: string
+    required: false
+    show_if: "expose.tls.certSource=auto"
+
+  # Secret name when certSource is secret
+  - variable: expose.tls.secret.secretName
+    label: "TLS Secret Name"
+    description: "The name of the secret that contains the TLS certificate and key."
+    type: string
+    required: false
+    show_if: "expose.tls.certSource=secret"
+
+  # External URL
+  - variable: externalURL
+    label: "External URL"
+    description: "The external URL for the Harbor core service."
+    type: string
+    default: "https://core.harbor.domain"
+    required: true
+
+  # Admin Password
+  - variable: harborAdminPassword
+    label: "Harbor Admin Password"
+    description: "The initial password of the Harbor admin."
+    type: password
+    default: "Harbor12345"
+    required: true
+
+  # Persistence
+  - variable: persistence.enabled
+    label: "Enable Persistence"
+    description: "Enable persistent storage for Harbor components."
+    type: boolean
+    default: true
+    required: true
+
+  # Registry PVC size
+  - variable: persistence.persistentVolumeClaim.registry.size
+    label: "Registry PVC Size"
+    description: "Persistent volume size for the Harbor registry."
+    type: string
+    default: "5Gi"
+    required: true
+
+  # Trivy PVC size
+  - variable: persistence.persistentVolumeClaim.trivy.size
+    label: "Trivy PVC Size"
+    description: "Persistent volume size for Trivy."
+    type: string
+    default: "5Gi"
+    required: true
+
+  # Storage backend type
+  - variable: persistence.imageChartStorage.type
+    label: "Storage Backend Type"
+    description: "The storage backend for images and charts. Options: filesystem, azure, gcs, s3, swift, or oss"
+    type: enum
+    options:
+      - "filesystem"
+      - "azure"
+      - "gcs"
+      - "s3"
+      - "swift"
+      - "oss"
+    default: "filesystem"
+    required: true
+
+  # S3 bucket name (only shown if 's3' is selected as the backend type)
+  - variable: persistence.imageChartStorage.s3.bucket
+    label: "S3 Bucket Name"
+    description: "The S3 bucket name for storage."
+    type: string
+    required: true
+    show_if: "persistence.imageChartStorage.type=s3"
+
+  # Redis type
+  - variable: redis.type
+    label: "Redis Type"
+    description: "The type of Redis to use. Options: internal or external."
+    type: enum
+    options:
+      - "internal"
+      - "external"
+    default: "internal"
+    required: true
+
+  # Database type
+  - variable: database.type
+    label: "Database Type"
+    description: "The type of database to use. Options: internal or external."
+    type: enum
+    options:
+      - "internal"
+      - "external"
+    default: "internal"
+    required: true
+
+  # External database host (only shown if 'external' is selected as the database type)
+  - variable: database.external.host
+    label: "External Database Host"
+    description: "The hostname or IP address of the external database."
+    type: string
+    required: true
+    show_if: "database.type=external"
+
+  # External database password (only shown if 'external' is selected as the database type)
+  - variable: database.external.password
+    label: "External Database Password"
+    description: "The password for the external database."
+    type: password
+    required: true
+    show_if: "database.type=external"
+
+  # Use strong SSL ciphers for internal TLS
+  - variable: internalTLS.strong_ssl_ciphers
+    label: "Use Strong SSL Ciphers"
+    description: "Enable strong SSL ciphers for internal TLS communication between Harbor components."
+    type: boolean
+    default: false
+    required: false
