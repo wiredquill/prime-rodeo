@@ -1,0 +1,6 @@
+
+apiVersion: v2
+name: pxbbq
+description: A Helm chart for PXBBQ MongoDB and Web application
+version: 1.0.0
+appVersion: "1.0"

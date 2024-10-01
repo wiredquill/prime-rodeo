@@ -1,0 +1,23 @@
+
+# Default values for MongoDB
+mongodb:
+  image: "mongo:7.0.9"
+  username: "porxie"
+  password: "porxie"
+  replicaCount: 1
+  storageSize: "1Gi"
+  storageClass: "px-csi-db"
+
+# Default values for PXBBQ Web
+pxbbq:
+  image: "eshanks16/pxbbq:v4.3.1"
+  replicaCount: 3
+  mongoUser: "porxie"
+  mongoPassword: "porxie"
+  mongoPort: "27017"
+  chatbotEnabled: "False"
+  pxbbqUri: "http://EXTERNAL_PXBBQ_URL_GOES_HERE"
+  modelServerUri: "http://ollama.genai.svc.cluster.local:11434"
+  neo4jUri: "bolt://database.genai.svc.cluster.local:7687"
+  archiveOrders: "False"
+  nodePort: 30000
