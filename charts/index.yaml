@@ -8,10 +8,10 @@ entries:
       catalog.cattle.io/release-name: harbor
     apiVersion: v2
     appVersion: 2.11.0
-    created: "2024-10-01T16:33:50.806221-07:00"
+    created: "2024-10-01T16:43:40.894163-07:00"
     description: An open source trusted cloud native registry that stores, signs,
       and scans content
-    digest: 02596104ed87323fd260512da6b1afc9d6780fcf4f0b0a5788c4a2afc8208e22
+    digest: 855cf1992a3b1f39b8e8f847bc0656232e372adbb022ae1fee2928f58c91ebb9
     home: https://goharbor.io
     icon: https://raw.githubusercontent.com/goharbor/website/main/static/img/logos/harbor-icon-color.png
     keywords:
@@ -37,11 +37,11 @@ entries:
   pxbbq:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2024-10-01T16:33:50.806398-07:00"
+    created: "2024-10-01T16:43:40.894525-07:00"
     description: A Helm chart for PXBBQ MongoDB and Web application
     digest: 90c5b268d3ceeb4a07a9bb624052753cd5dd9f38b492d53bd456903d40713ad5
     name: pxbbq
     urls:
     - pxbbq-1.0.0.tgz
     version: 1.0.0
-generated: "2024-10-01T16:33:50.802339-07:00"
+generated: "2024-10-01T16:43:40.888611-07:00"

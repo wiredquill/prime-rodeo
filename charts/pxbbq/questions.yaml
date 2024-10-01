@@ -1,0 +1,51 @@
+categories:
+  - PXBBQ
+
+questions:
+  - variable: mongodb.username
+    label: "MongoDB Username"
+    description: "The root username for MongoDB"
+    type: string
+    default: "porxie"
+    required: true
+
+  - variable: mongodb.password
+    label: "MongoDB Password"
+    description: "The root password for MongoDB"
+    type: password
+    required: true
+
+  - variable: mongodb.replicaCount
+    label: "MongoDB Replica Count"
+    description: "The number of MongoDB replicas"
+    type: int
+    default: 1
+    required: true
+    min: 1
+
+  - variable: pxbbq.mongoUser
+    label: "PXBBQ MongoDB User"
+    description: "The MongoDB user for PXBBQ"
+    type: string
+    default: "porxie"
+    required: true
+
+  - variable: pxbbq.mongoPassword
+    label: "PXBBQ MongoDB Password"
+    description: "The password for the PXBBQ MongoDB user"
+    type: password
+    required: true
+
+  - variable: pxbbq.replicaCount
+    label: "PXBBQ Web Replica Count"
+    description: "The number of PXBBQ web application replicas"
+    type: int
+    default: 3
+    required: true
+    min: 1
+
+  - variable: pxbbq.pxbbqUri
+    label: "PXBBQ External URL"
+    description: "The external URL for PXBBQ"
+    type: string
+    required: true
