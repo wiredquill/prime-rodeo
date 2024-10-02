@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: disk-filler
+  labels:
+    app: disk-filler
+spec:
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: data
+  terminationGracePeriodSeconds: 5
+  containers:
+  - image: busybox
+    imagePullPolicy: Always
+    name: busybox
+    volumeMounts:
+    - name: data
+      mountPath: "/mnt"
+    command:
+      - sh
+    args:
+      - -c
+      - |
+        i=0
+        until [ $i = 8 ] ; do
+          dd if=/dev/urandom of=/mnt/sample-$i.txt bs=1G count=1 iflag=fullblock
+          $(( i++ ))
+          sleep 1
+        done
+        exit
