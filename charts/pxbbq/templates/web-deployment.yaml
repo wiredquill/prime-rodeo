@@ -1,62 +1,64 @@
-
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment                 
 metadata:
-  name: pxbbq-web
-  namespace: pxbbq
+  name: pxbbq-web  
+  namespace: pxbbq         
 spec:
-  replicas: {{ .Values.pxbbq.replicaCount }}
+  replicas: 3                    
   selector:
     matchLabels:
       app: pxbbq-web
-  template:
+  template:                      
     metadata:
-      labels:
+      labels:                    
         app: pxbbq-web
-    spec:
+    spec:                        
       containers:
       - name: pxbbq-web
-        image: {{ .Values.pxbbq.image }}
+        image: eshanks16/pxbbq:v4.3.1
         env:
         - name: MONGO_INIT_USER
-          value: {{ .Values.pxbbq.mongoUser }}
+          value: "porxie" #Mongo User with permissions to create additional databases and users. Typically "porxie" or "pds"
         - name: MONGO_INIT_PASS
-          value: {{ .Values.pxbbq.mongoPassword }}
+          value: "porxie" #Required to connect the init user to the database. If using the mongodb yaml supplied, use "porxie"
         - name: MONGO_NODES
-          value: "mongo"
+          value: "mongo" #COMMA SEPARATED LIST OF MONGO ENDPOINTS. Example: mongo1.dns.name,mongo2.dns.name
         - name: MONGO_PORT
-          value: {{ .Values.pxbbq.mongoPort }}
+          value: "27017" # MongoDB Port
         - name: MONGO_USER
-          value: {{ .Values.pxbbq.mongoUser }}
+          value: porxie #Mongo DB User that will be created by using the Init_User
         - name: MONGO_PASS
-          value: {{ .Values.pxbbq.mongoPassword }}
-        - name: CHATBOT_ENABLED
-          value: {{ .Values.pxbbq.chatbotEnabled }}
+          value: "porxie" #Mongo DB Password for User that will be created by using the Init User
+          ########## CHATBOT SECTION #############
+        - name: CHATBOT_ENABLED #If CHATBOT is set to False, the other variables in this section are not needed.
+          value: "False" #Set to True to enable a LLAMA3 chatbot - Requires the AIDemo to be deployed first
         - name: PXBBQ_URI
-          value: {{ .Values.pxbbq.pxbbqUri }}
+          value: "http://EXTERNAL_PXBBQ_URL_GOES_HERE" #MUST Be the external svc name for the PXBBQ application (PXBBQ NodePort/LoadBalaner)
         - name: MODEL_SERVER_URI
-          value: {{ .Values.pxbbq.modelServerUri }}
+          value: "http://ollama.genai.svc.cluster.local:11434" #MUST be the internal svc name for the ollama service (CLUSERIP)
         - name: NEO4J_URI
-          value: {{ .Values.pxbbq.neo4jUri }}
+          value: "bolt://database.genai.svc.cluster.local:7687" #MUST be the internal svc name for the new4j service (CLUSTERIP)
+        ############# CI/CD Demo Section ##############
         - name: ARCHIVE_ORDERS
-          value: {{ .Values.pxbbq.archiveOrders }}
+          value: "False" #USED FOR CI/CD Database testing demos. Setting this to TRUE Wipes out all previous orders
         imagePullPolicy: Always
         ports:
           - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /healthz
+            path: /healthz # Health check built into PXBBQ
             port: 8080
+          #initialDelaySeconds: 15
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /healthz # Health check built into PXBBQ
             port: 8080
-          initialDelaySeconds: 15
-          timeoutSeconds: 3
-          periodSeconds: 10
-          failureThreshold: 1
+          initialDelaySeconds: 15 
+          timeoutSeconds: 3  
+          periodSeconds: 10  
+          failureThreshold: 1 
       tolerations:
       - key: "node.kubernetes.io/unreachable"
         operator: "Exists"
