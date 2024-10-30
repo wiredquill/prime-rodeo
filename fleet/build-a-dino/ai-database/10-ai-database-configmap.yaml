@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-database-config
+  namespace: build-a-dino
+data:
+  config.yaml: |
+    server_name: "AI Database"
+    log_message: "RAG data updated"
+    log_interval: 60  # Interval in seconds
+    http_ok_message: "ok"  # Message for root path responses
+    http_500_message: "Internal Database Server Error"  # Message for /500 mode responses
+
+    # New log messages for HTTP events
+    http_request_log_message: "Received updated data"
+    http_500_activate_log_message: "Internal Database Server Error"
+    http_500_deactivate_log_message: "Database Ready"
+
+    # Initial error mode setting
+    initial_error_mode: false  # Set to true to start in error mode

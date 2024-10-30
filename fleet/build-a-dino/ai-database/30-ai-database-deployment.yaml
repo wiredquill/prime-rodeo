@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-database
+  namespace: build-a-dino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-database
+  template:
+    metadata:
+      labels:
+        app: ai-database
+    spec:
+      containers:
+      - name: ai-database
+        image: erin/zelig:latest
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: db-config-volume
+            mountPath: /config.yaml
+            subPath: config.yaml
+        env:
+          - name: CONFIG_PATH
+            value: /config.yaml
+      volumes:
+        - name: db-config-volume
+          configMap:
+            name: ai-database-config

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-model-config
+  namespace: build-a-dino
+data:
+  config.yaml: |
+    server_name: "AI Model"
+    log_message: "Model refreshed and Ready"
+    log_interval: 60  # Interval in seconds
+    http_ok_message: "ok"  # Message for root path responses
+    http_500_message: "Model Offline"  # Message for /500 mode responses
+
+    # Log messages for HTTP events
+    http_request_log_message: "Answer Generate"
+    http_500_activate_log_message: "AI model Offline"
+    http_500_deactivate_log_message: "AI Model Online"
+
+    # Initial error mode setting
+    initial_error_mode: false  # Set to true to start in error mode

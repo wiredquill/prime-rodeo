@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: point-of-sale-config
+  namespace: build-a-dino
+data:
+  config.yaml: |
+    server_name: "Point of Sale"
+    log_message: "Order Processed"
+    log_interval: 60  # Interval in seconds
+    http_ok_message: "ok"  # Message for root path responses
+    http_500_message: "Model Offline"  # Message for /500 mode responses
+
+    # Log messages for HTTP events
+    http_request_log_message: "Online Order Processed"
+    http_500_activate_log_message: "POS Offline"
+    http_500_deactivate_log_message: "POS Online"
+
+    # Initial error mode setting
+    initial_error_mode: false  # Set to true to start in error mode

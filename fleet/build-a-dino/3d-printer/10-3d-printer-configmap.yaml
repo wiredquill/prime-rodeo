@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 3d-printer-config
+  namespace: build-dino
+data:
+  config.yaml: |
+    server_name: "3d Printer"
+    log_message: "Printing Fossilized bones"
+    error_log_message: "Printer Offline - Filament Error."  # New error log message for error mode
+    log_interval: 60  # Interval in seconds
+    http_ok_message: "ok"  # Message for root path responses
+    http_500_message: "3d Printer Offline"  # Message for /500 mode responses
+
+    # Log messages for HTTP events
+    http_request_log_message: "new Print request received"
+    http_500_activate_log_message: "** 3d Printer Malfunctioned **"
+    http_500_deactivate_log_message: "** 3d Printer Online **"
+
+    # Initial error mode setting
+    initial_error_mode: false  # Set to true to start in error mode

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: point-of-sale
+  namespace: build-a-dino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: point-of-sale
+  template:
+    metadata:
+      labels:
+        app: point-of-sale
+    spec:
+      containers:
+      - name: point-of-sale
+        image: erin/zelig:latest
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: pos-config-volume
+            mountPath: /config.yaml
+            subPath: config.yaml
+        env:
+          - name: CONFIG_PATH
+            value: /config.yaml
+      volumes:
+        - name: pos-config-volume
+          configMap:
+            name: point-of-sale-config

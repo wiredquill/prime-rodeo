@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: build-a-dino
+data:
+  config.yaml: |
+    server_name: "Frontend Server"
+    log_message: "Customer assisted"
+    error_log_message: "Something is definitely wrong"  # Error log message for error mode
+    log_interval: 60  # Interval in seconds
+    http_ok_message: "ok"  # Message for root path responses
+    http_500_message: "Internal Server Error"  # Message for /500 mode responses
+
+    # Log messages for HTTP events
+    http_request_log_message: ""
+    http_500_activate_log_message: "Frontend Crashed"
+    http_500_deactivate_log_message: "Frontend Reloaded"
+
+    # Initial error mode setting
+    initial_error_mode: false  # Set to true to start in error mode

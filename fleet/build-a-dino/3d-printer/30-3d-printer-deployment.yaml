@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 3d-printer
+  namespace: build-a-dino
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 3d-printer
+  template:
+    metadata:
+      labels:
+        app: 3d-printer
+    spec:
+      containers:
+      - name: 3d-printer
+        image: erin/zelig:latest
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: printer-config-volume
+            mountPath: /config.yaml
+            subPath: config.yaml
+        env:
+          - name: CONFIG_PATH
+            value: /config.yaml
+      volumes:
+        - name: printer-config-volume
+          configMap:
+            name: 3d-printer-config
