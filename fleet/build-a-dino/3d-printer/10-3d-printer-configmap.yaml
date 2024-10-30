@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: 3d-printer-config
-  namespace: build-dino
+  namespace: build-a-dino
 data:
   config.yaml: |
     server_name: "3d Printer"
