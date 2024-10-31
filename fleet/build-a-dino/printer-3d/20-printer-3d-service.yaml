@@ -5,7 +5,7 @@ metadata:
   namespace: build-a-dino
 spec:
   selector:
-    app: 3d-printer
+    app: printer-3d
   ports:
     - protocol: TCP
       port: 8080

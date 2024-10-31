@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 3d-printer
+  name: printer-3d
   namespace: build-a-dino
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: 3d-printer
+      app: printer-3d
   template:
     metadata:
       labels:
-        app: 3d-printer
+        app: printer-3d
     spec:
       containers:
-      - name: 3d-printer
+      - name: printer-3d
         image: erin/zelig:latest
         ports:
           - containerPort: 8080
@@ -28,4 +28,4 @@ spec:
       volumes:
         - name: printer-config-volume
           configMap:
-            name: 3d-printer-config
+            name: printer-3d-config
