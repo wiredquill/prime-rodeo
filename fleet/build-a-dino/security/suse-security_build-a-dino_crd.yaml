@@ -1,0 +1,332 @@
+apiVersion: v1
+items:
+- apiVersion: neuvector.com/v1
+  kind: NvSecurityRule
+  metadata:
+    creationTimestamp: null
+    name: nv.ai-database.build-a-dino
+    namespace: build-a-dino
+  spec:
+    dlp:
+      settings: []
+      status: true
+    egress: []
+    file: []
+    ingress:
+    - action: allow
+      applications:
+      - HTTP
+      name: nv.ai-database.build-a-dino-ingress-0
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: frontend.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        name: nv.frontend.build-a-dino
+        original_name: ""
+    process:
+    - action: allow
+      allow_update: false
+      name: pause
+      path: /pause
+    - action: allow
+      allow_update: false
+      name: python3
+      path: /usr/bin/python3.12
+    process_profile:
+      baseline: basic
+    target:
+      policymode: Protect
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: ai-database.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        grp_band_width: 0
+        grp_sess_cur: 0
+        grp_sess_rate: 0
+        mon_metric: false
+        name: nv.ai-database.build-a-dino
+        original_name: ""
+    waf:
+      settings: []
+      status: true
+- apiVersion: neuvector.com/v1
+  kind: NvSecurityRule
+  metadata:
+    creationTimestamp: null
+    name: nv.ai-model.build-a-dino
+    namespace: build-a-dino
+  spec:
+    dlp:
+      settings: []
+      status: true
+    egress: []
+    file: []
+    ingress:
+    - action: allow
+      applications:
+      - HTTP
+      name: nv.ai-model.build-a-dino-ingress-1
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: frontend.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        name: nv.frontend.build-a-dino
+        original_name: ""
+    process:
+    - action: allow
+      allow_update: false
+      name: pause
+      path: /pause
+    - action: allow
+      allow_update: false
+      name: python3
+      path: /usr/bin/python3.12
+    process_profile:
+      baseline: basic
+    target:
+      policymode: Protect
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: ai-model.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        grp_band_width: 0
+        grp_sess_cur: 0
+        grp_sess_rate: 0
+        mon_metric: false
+        name: nv.ai-model.build-a-dino
+        original_name: ""
+    waf:
+      settings: []
+      status: true
+- apiVersion: neuvector.com/v1
+  kind: NvSecurityRule
+  metadata:
+    creationTimestamp: null
+    name: nv.frontend.build-a-dino
+    namespace: build-a-dino
+  spec:
+    dlp:
+      settings: []
+      status: true
+    egress:
+    - action: allow
+      applications:
+      - DNS
+      name: nv.rke2-coredns-rke2-coredns.kube-system-egress-0
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: rke2-coredns-rke2-coredns.kube-system
+        - key: domain
+          op: =
+          value: kube-system
+        name: nv.rke2-coredns-rke2-coredns.kube-system
+        original_name: ""
+    - action: allow
+      applications:
+      - HTTP
+      name: nv.printer-3d.build-a-dino-egress-1
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: printer-3d.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        name: nv.printer-3d.build-a-dino
+        original_name: ""
+    - action: allow
+      applications:
+      - HTTP
+      name: nv.point-of-sale.build-a-dino-egress-2
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: point-of-sale.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        name: nv.point-of-sale.build-a-dino
+        original_name: ""
+    - action: allow
+      applications:
+      - HTTP
+      name: external-egress-3
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        criteria: []
+        name: external
+        original_name: ""
+    file: []
+    ingress: []
+    process:
+    - action: allow
+      allow_update: false
+      name: ls
+      path: /usr/bin/ls
+    - action: allow
+      allow_update: false
+      name: pause
+      path: /pause
+    - action: allow
+      allow_update: false
+      name: python3
+      path: /usr/bin/python3.12
+    - action: allow
+      allow_update: false
+      name: sh
+      path: /usr/bin/bash
+    - action: allow
+      allow_update: false
+      name: whoami
+      path: /usr/bin/whoami
+    process_profile:
+      baseline: basic
+    target:
+      policymode: Protect
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: frontend.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        grp_band_width: 0
+        grp_sess_cur: 0
+        grp_sess_rate: 0
+        mon_metric: false
+        name: nv.frontend.build-a-dino
+        original_name: ""
+    waf:
+      settings: []
+      status: true
+- apiVersion: neuvector.com/v1
+  kind: NvSecurityRule
+  metadata:
+    creationTimestamp: null
+    name: nv.point-of-sale.build-a-dino
+    namespace: build-a-dino
+  spec:
+    dlp:
+      settings: []
+      status: true
+    egress: []
+    file: []
+    ingress: []
+    process:
+    - action: allow
+      allow_update: false
+      name: pause
+      path: /pause
+    - action: allow
+      allow_update: false
+      name: python3
+      path: /usr/bin/python3.12
+    process_profile:
+      baseline: basic
+    target:
+      policymode: Protect
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: point-of-sale.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        grp_band_width: 0
+        grp_sess_cur: 0
+        grp_sess_rate: 0
+        mon_metric: false
+        name: nv.point-of-sale.build-a-dino
+        original_name: ""
+    waf:
+      settings: []
+      status: true
+- apiVersion: neuvector.com/v1
+  kind: NvSecurityRule
+  metadata:
+    creationTimestamp: null
+    name: nv.printer-3d.build-a-dino
+    namespace: build-a-dino
+  spec:
+    dlp:
+      settings: []
+      status: true
+    egress: []
+    file: []
+    ingress: []
+    process:
+    - action: allow
+      allow_update: false
+      name: pause
+      path: /pause
+    - action: allow
+      allow_update: false
+      name: python3
+      path: /usr/bin/python3.12
+    process_profile:
+      baseline: basic
+    target:
+      policymode: Protect
+      selector:
+        comment: ""
+        criteria:
+        - key: service
+          op: =
+          value: printer-3d.build-a-dino
+        - key: domain
+          op: =
+          value: build-a-dino
+        grp_band_width: 0
+        grp_sess_cur: 0
+        grp_sess_rate: 0
+        mon_metric: false
+        name: nv.printer-3d.build-a-dino
+        original_name: ""
+    waf:
+      settings: []
+      status: true
+kind: List
+metadata: {}
