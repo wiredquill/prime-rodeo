@@ -1,0 +1,148 @@
+diff --git a/packages/harbor/2.12/templates/core/core-dpl.yaml b/packages/harbor/2.12/templates/core/core-dpl.yaml
+index 2ee8fd5..2f08f8d 100644
+--- a/packages/harbor/2.12/templates/core/core-dpl.yaml
++++ b/packages/harbor/2.12/templates/core/core-dpl.yaml
+@@ -63,7 +63,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: core
+-        image: {{ .Values.core.image.repository }}:{{ .Values.core.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.core.image.registry) }}{{ . }}/{{ end }}{{ .Values.core.image.repository }}:{{ .Values.core.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         {{- if .Values.core.startupProbe.enabled }}
+         startupProbe:
+diff --git a/packages/harbor/2.12/templates/core/core-pre-upgrade-job.yaml b/packages/harbor/2.12/templates/core/core-pre-upgrade-job.yaml
+index ce0b131..3ca4e59 100644
+--- a/packages/harbor/2.12/templates/core/core-pre-upgrade-job.yaml
++++ b/packages/harbor/2.12/templates/core/core-pre-upgrade-job.yaml
+@@ -32,7 +32,7 @@ spec:
+       terminationGracePeriodSeconds: 120
+       containers:
+       - name: core-job
+-        image: {{ .Values.core.image.repository }}:{{ .Values.core.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.core.image.registry) }}{{ . }}/{{ end }}{{ .Values.core.image.repository }}:{{ .Values.core.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         command: ["/harbor/harbor_core", "-mode=migrate"]
+         envFrom:
+diff --git a/packages/harbor/2.12/templates/database/database-ss.yaml b/packages/harbor/2.12/templates/database/database-ss.yaml
+index 71c5eb1..42392bc 100644
+--- a/packages/harbor/2.12/templates/database/database-ss.yaml
++++ b/packages/harbor/2.12/templates/database/database-ss.yaml
+@@ -48,7 +48,7 @@ spec:
+       # use this init container to correct the permission
+       # as "fsGroup" applied before the init container running, the container has enough permission to execute the command
+       - name: "data-permissions-ensurer"
+-        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.database.internal.image.registry) }}{{ . }}/{{ end }}{{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         {{- if not (empty .Values.containerSecurityContext) }}
+         securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 10 }}
+@@ -68,7 +68,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: database
+-        image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.database.internal.image.registry) }}{{ . }}/{{ end }}{{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         {{- if not (empty .Values.containerSecurityContext) }}
+         securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 10 }}
+diff --git a/packages/harbor/2.12/templates/exporter/exporter-dpl.yaml b/packages/harbor/2.12/templates/exporter/exporter-dpl.yaml
+index 01e9258..bcb76ae 100644
+--- a/packages/harbor/2.12/templates/exporter/exporter-dpl.yaml
++++ b/packages/harbor/2.12/templates/exporter/exporter-dpl.yaml
+@@ -58,7 +58,7 @@ spec:
+ {{- end }}
+       containers:
+       - name: exporter
+-        image: {{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.exporter.image.registry) }}{{ . }}/{{ end }}{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         livenessProbe:
+           httpGet:
+diff --git a/packages/harbor/2.12/templates/jobservice/jobservice-dpl.yaml b/packages/harbor/2.12/templates/jobservice/jobservice-dpl.yaml
+index 1bb6690..fe49f34 100644
+--- a/packages/harbor/2.12/templates/jobservice/jobservice-dpl.yaml
++++ b/packages/harbor/2.12/templates/jobservice/jobservice-dpl.yaml
+@@ -69,7 +69,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: jobservice
+-        image: {{ .Values.jobservice.image.repository }}:{{ .Values.jobservice.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.jobservice.image.registry) }}{{ . }}/{{ end }}{{ .Values.jobservice.image.repository }}:{{ .Values.jobservice.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         livenessProbe:
+           httpGet:
+diff --git a/packages/harbor/2.12/templates/nginx/deployment.yaml b/packages/harbor/2.12/templates/nginx/deployment.yaml
+index 3abc941..a303948 100644
+--- a/packages/harbor/2.12/templates/nginx/deployment.yaml
++++ b/packages/harbor/2.12/templates/nginx/deployment.yaml
+@@ -59,7 +59,7 @@ spec:
+ {{- end }}
+       containers:
+       - name: nginx
+-        image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
++        image: "{{ with (coalesce .Values.global.imageRegistry .Values.nginx.image.registry) }}{{ . }}/{{ end }}{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
+         imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+         {{- $_ := set . "scheme" "HTTP" -}}
+         {{- $_ := set . "port" "8080" -}}
+diff --git a/packages/harbor/2.12/templates/portal/deployment.yaml b/packages/harbor/2.12/templates/portal/deployment.yaml
+index 4dea944..5797920 100644
+--- a/packages/harbor/2.12/templates/portal/deployment.yaml
++++ b/packages/harbor/2.12/templates/portal/deployment.yaml
+@@ -60,7 +60,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: portal
+-        image: {{ .Values.portal.image.repository }}:{{ .Values.portal.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.portal.image.registry) }}{{ . }}/{{ end }}{{ .Values.portal.image.repository }}:{{ .Values.portal.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+ {{- if .Values.portal.resources }}
+         resources:
+diff --git a/packages/harbor/2.12/templates/redis/statefulset.yaml b/packages/harbor/2.12/templates/redis/statefulset.yaml
+index 1d37fb1..4eb8cc2 100644
+--- a/packages/harbor/2.12/templates/redis/statefulset.yaml
++++ b/packages/harbor/2.12/templates/redis/statefulset.yaml
+@@ -47,7 +47,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: redis
+-        image: {{ .Values.redis.internal.image.repository }}:{{ .Values.redis.internal.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.redis.internal.image.registry) }}{{ . }}/{{ end }}{{ .Values.redis.internal.image.repository }}:{{ .Values.redis.internal.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         {{- if not (empty .Values.containerSecurityContext) }}
+         securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 10 }}
+diff --git a/packages/harbor/2.12/templates/registry/registry-dpl.yaml b/packages/harbor/2.12/templates/registry/registry-dpl.yaml
+index 0965cf2..881bb92 100644
+--- a/packages/harbor/2.12/templates/registry/registry-dpl.yaml
++++ b/packages/harbor/2.12/templates/registry/registry-dpl.yaml
+@@ -72,7 +72,7 @@ spec:
+       {{- end }}
+       containers:
+       - name: registry
+-        image: {{ .Values.registry.registry.image.repository }}:{{ .Values.registry.registry.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.registry.registry.image.registry) }}{{ . }}/{{ end }}{{ .Values.registry.registry.image.repository }}:{{ .Values.registry.registry.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         livenessProbe:
+           httpGet:
+@@ -211,7 +211,7 @@ spec:
+ {{ include "harbor.caBundleVolumeMount" . | indent 8 }}
+         {{- end }}
+       - name: registryctl
+-        image: {{ .Values.registry.controller.image.repository }}:{{ .Values.registry.controller.image.tag }}
++        image: {{ with (coalesce .Values.global.imageRegistry .Values.registry.controller.image.registry) }}{{ . }}/{{ end }}{{ .Values.registry.controller.image.repository }}:{{ .Values.registry.controller.image.tag }}
+         imagePullPolicy: {{ .Values.imagePullPolicy }}
+         livenessProbe:
+           httpGet:
+diff --git a/packages/harbor/2.12/templates/trivy/trivy-sts.yaml b/packages/harbor/2.12/templates/trivy/trivy-sts.yaml
+index c876ba3..63242bf 100644
+--- a/packages/harbor/2.12/templates/trivy/trivy-sts.yaml
++++ b/packages/harbor/2.12/templates/trivy/trivy-sts.yaml
+@@ -62,7 +62,7 @@ spec:
+       {{- end }}
+       containers:
+         - name: trivy
+-          image: {{ .Values.trivy.image.repository }}:{{ .Values.trivy.image.tag }}
++          image: {{ with (coalesce .Values.global.imageRegistry .Values.trivy.image.registry) }}{{ . }}/{{ end }}{{ .Values.trivy.image.repository }}:{{ .Values.trivy.image.tag }}
+           imagePullPolicy: {{ .Values.imagePullPolicy }}
+           {{- if not (empty .Values.containerSecurityContext) }}
+           securityContext: {{ .Values.containerSecurityContext | toYaml | nindent 12 }}

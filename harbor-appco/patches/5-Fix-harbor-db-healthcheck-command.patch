@@ -1,0 +1,21 @@
+diff --git a/packages/harbor/2.12/templates/database/database-ss.yaml b/packages/harbor/2.12/templates/database/database-ss.yaml
+index 558693d..a759d75 100644
+--- a/packages/harbor/2.12/templates/database/database-ss.yaml
++++ b/packages/harbor/2.12/templates/database/database-ss.yaml
+@@ -84,14 +84,14 @@ spec:
+         livenessProbe:
+           exec:
+             command:
+-            - /docker-healthcheck.sh
++            - /usr/share/harbor-db/docker-healthcheck.sh
+           initialDelaySeconds: 300
+           periodSeconds: 10
+           timeoutSeconds: {{ .Values.database.internal.livenessProbe.timeoutSeconds }}
+         readinessProbe:
+           exec:
+             command:
+-            - /docker-healthcheck.sh
++            - /usr/share/harbor-db/docker-healthcheck.sh
+           initialDelaySeconds: 1
+           periodSeconds: 10
+           timeoutSeconds: {{ .Values.database.internal.readinessProbe.timeoutSeconds }}

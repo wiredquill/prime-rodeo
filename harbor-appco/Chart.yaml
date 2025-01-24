@@ -1,0 +1,37 @@
+annotations:
+  helm.sh/images: |
+    - image: dp.apps.rancher.io/containers/nginx:1.26
+      name: nginx
+    - image: dp.apps.rancher.io/containers/harbor-core:2.12.2
+      name: harbor-core
+    - image: dp.apps.rancher.io/containers/harbor-db:2.12.2
+      name: harbor-db
+    - image: dp.apps.rancher.io/containers/harbor-exporter:2.12.2
+      name: harbor-exporter
+    - image: dp.apps.rancher.io/containers/harbor-jobservice:2.12.2
+      name: harbor-jobservice
+    - image: dp.apps.rancher.io/containers/harbor-portal:2.12.2
+      name: harbor-portal
+    - image: dp.apps.rancher.io/containers/harbor-registry:2.12.2
+      name: harbor-registry
+    - image: dp.apps.rancher.io/containers/harbor-registryctl:2.12.2
+      name: harbor-registryctl
+    - image: dp.apps.rancher.io/containers/harbor-trivy-adapter:2.12.2
+      name: harbor-trivy-adapter
+    - image: dp.apps.rancher.io/containers/redis:7.4
+      name: redis
+apiVersion: v2
+appVersion: 2.12.2
+description: Harbor is an open source trusted cloud native registry project that stores,
+  signs, and scans content. Harbor extends the open source Docker Distribution by
+  adding the functionalities usually required by users such as security, identity
+  and management. Harbor supports replication of images between registries, and also
+  offers advanced security features such as user management, access control and activity
+  auditing.
+home: https://apps.rancher.io/applications/harbor
+icon: https://apps.rancher.io/logos/harbor.png
+maintainers:
+- name: SUSE LLC
+  url: https://www.suse.com/
+name: harbor
+version: 1.16.2
